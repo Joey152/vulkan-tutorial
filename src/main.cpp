@@ -1022,6 +1022,7 @@ private:
         createImageViews();
         createRenderPass();
         createGraphicsPipeline();
+        createDepthResources();
         createFramebuffers();
         createCommandBuffers();
     }
@@ -1038,6 +1039,15 @@ private:
         device.destroyPipelineLayout(pipelineLayout, nullptr);
         for (auto swapChainImageView : swapChainImageViews) {
             device.destroyImageView(swapChainImageView, nullptr);
+        }
+        for (auto depthImageView : depthImagesView ) {
+            device.destroyImageView(depthImageView, nullptr);
+        }
+        for (auto depthImage : depthImages) {
+            device.destroyImage(depthImage, nullptr);
+        }
+        for (auto depthImageMemory : depthImagesMemory) {
+            device.freeMemory(depthImageMemory, nullptr);
         }
         device.destroySwapchainKHR(swapChain, nullptr);
     }
@@ -1385,6 +1395,7 @@ private:
 	}
 
 	void transitionImageLayout(vk::Image image, vk::Format format, vk::ImageLayout oldLayout, vk::ImageLayout newLayout) {
+        // TODO: this is such a cluster
 		vk::CommandBuffer commandBuffer = beginSingleTimeCommands();
 
 		vk::ImageMemoryBarrier barrier;
@@ -1393,7 +1404,18 @@ private:
 		barrier.srcQueueFamilyIndex = VK_QUEUE_FAMILY_IGNORED;
 		barrier.dstQueueFamilyIndex = VK_QUEUE_FAMILY_IGNORED;
 		barrier.image = image;
-		barrier.subresourceRange.aspectMask = vk::ImageAspectFlagBits::eColor;
+
+        if (newLayout == vk::ImageLayout::eDepthStencilAttachmentOptimal) {
+            barrier.subresourceRange.aspectMask = vk::ImageAspectFlagBits::eDepth;
+
+            if (hasStencilComponent(format)) {
+                barrier.subresourceRange.aspectMask |= vk::ImageAspectFlagBits::eDepth;
+            }
+        }
+        else {
+            barrier.subresourceRange.aspectMask = vk::ImageAspectFlagBits::eColor;
+        }
+        
 		barrier.subresourceRange.baseMipLevel = 0;
 		barrier.subresourceRange.levelCount = 1;
 		barrier.subresourceRange.baseArrayLayer = 0;
@@ -1416,6 +1438,13 @@ private:
 			sourceStage = vk::PipelineStageFlagBits::eTransfer;
 			destinationStage = vk::PipelineStageFlagBits::eFragmentShader;
 		}
+        else if (oldLayout == vk::ImageLayout::eUndefined && newLayout == vk::ImageLayout::eDepthStencilAttachmentOptimal) {
+            barrier.srcAccessMask = {};
+            barrier.dstAccessMask = vk::AccessFlagBits::eDepthStencilAttachmentWrite | vk::AccessFlagBits::eDepthStencilAttachmentRead;
+
+            sourceStage = vk::PipelineStageFlagBits::eTopOfPipe;
+            destinationStage = vk::PipelineStageFlagBits::eEarlyFragmentTests;
+        }
 		else {
 			throw std::invalid_argument("unsupported layout transition");
 		}			
