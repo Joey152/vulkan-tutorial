@@ -8,6 +8,8 @@ file(GLOB_RECURSE sources src/*.cpp)
 
 add_executable(vulkan-tutorial ${sources})
 
+target_include_directories(vulkan-tutorial PRIVATE "include/")
+
 find_package(Vulkan REQUIRED)
 target_include_directories(vulkan-tutorial PRIVATE ${Vulkan_INCLUDE_DIR})
 target_link_libraries(vulkan-tutorial ${Vulkan_LIBRARY})
