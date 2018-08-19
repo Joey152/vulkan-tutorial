@@ -1,3 +1,0 @@
-/home/joey/projects/vulkan-tutorial/debug/CMakeFiles/rebuild_cache.dir
-/home/joey/projects/vulkan-tutorial/debug/CMakeFiles/vulkan-tutorial.dir
-/home/joey/projects/vulkan-tutorial/debug/CMakeFiles/edit_cache.dir
