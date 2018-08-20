@@ -29,7 +29,8 @@ const int HEIGHT = 600;
 const int MAX_FRAMES_IN_FLIGHT = 2;
 
 const std::vector<const char*> validationLayers = {
-    "VK_LAYER_LUNARG_standard_validation"
+    "VK_LAYER_LUNARG_standard_validation",
+    "VK_LAYER_LUNARG_monitor"
 };
 
 const std::vector<const char*> deviceExtensions = {
@@ -299,6 +300,10 @@ private:
 
     bool checkValidationLayerSupport() {
         std::vector<vk::LayerProperties> availableLayers = vk::enumerateInstanceLayerProperties();
+
+        for (auto prop : availableLayers) {
+            std::cout << prop.layerName << std::endl;
+        }
 
         for (const char* layerName : validationLayers) {
             bool layerFound = false;
