@@ -30,7 +30,7 @@
 const int WIDTH = 1000;
 const int HEIGHT = 800;
 
-const std::string MODEL_PATH = "assets/cube.obj";
+const std::string MODEL_PATH = "assets/chalet.obj";
 const std::string TEXTURE_PATH = "assets/chalet.jpg";
 
 const int MAX_FRAMES_IN_FLIGHT = 2;
