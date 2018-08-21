@@ -1,1 +1,0 @@
-/usr/bin/c++  -g   CMakeFiles/vulkan-tutorial.dir/src/main.cpp.o CMakeFiles/vulkan-tutorial.dir/src/vertex.cpp.o  -o vulkan-tutorial /usr/lib/libvulkan.so /usr/lib/libglfw.so.3.2 

@@ -16,3 +16,5 @@ target_link_libraries(vulkan-tutorial ${Vulkan_LIBRARY})
 
 find_package(glfw3 REQUIRED)
 target_link_libraries(vulkan-tutorial glfw)
+
+file(COPY shaders assets DESTINATION ${CMAKE_CURRENT_BINARY_DIR})

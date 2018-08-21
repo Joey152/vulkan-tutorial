@@ -4,3 +4,7 @@ debug.sh
 release.sh
 vulkan-tutorial
 vulkan-tutorial.exe
+
+# Clion
+.idea/
+cmake-build-debug/

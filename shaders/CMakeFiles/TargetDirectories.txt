@@ -1,3 +1,0 @@
-/home/joey/projects/vulkan-tutorial/shaders/CMakeFiles/rebuild_cache.dir
-/home/joey/projects/vulkan-tutorial/shaders/CMakeFiles/vulkan-tutorial.dir
-/home/joey/projects/vulkan-tutorial/shaders/CMakeFiles/edit_cache.dir
